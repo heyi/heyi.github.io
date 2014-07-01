@@ -1,6 +1,13 @@
 destination: ./_site
-auto:        true
 lsi:         false
 pygments:    true
 permalink:   date
 extensions: [smart]
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "post"
+    values:
+      layout: "default"
