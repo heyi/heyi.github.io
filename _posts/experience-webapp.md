@@ -1,3 +1,8 @@
+---
+title : 移动开发个人总结
+categories : [webApp, experience]
+---
+
 # 移动开发个人总结
 ## 过去的经验陷井与思维定势
 
