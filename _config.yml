@@ -3,6 +3,7 @@ lsi:         false
 pygments:    true
 permalink:   date
 extensions: [smart]
+#markdown: kramdown
 
 defaults:
   -
