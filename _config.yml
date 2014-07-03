@@ -1,9 +1,10 @@
 destination: ./_site
 lsi:         false
 pygments:    true
+paginate: 5
+paginate_path: "blog/page:num"
 permalink:   date
 extensions: [smart]
-#markdown: kramdown
 
 defaults:
   -

@@ -1,9 +1,21 @@
 ---
 layout: default
 ---
-
 <article>
-<h1>{{page.title}}</h1>
-<hr/>
-{{content}}
-</article>
+  <h1>{{page.title}}</h1>
+	<div class="info">
+		<span class='tag-label'>标签: </span>
+		<ul class="tag-list">
+			{% for t in page.tags %}
+			<li>
+			{{t}}
+			</li>
+			{% endfor %}
+		</ul>
+		<span  class='fr'>
+			{{page.date | date_to_long_string }}
+		</span>
+	</div>
+	<hr/>
+	{{content}}
+	</article>

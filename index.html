@@ -1,73 +1,40 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
+---
+layout: default
+title : 叶子绿的天空
+---
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+<!-- This loops through the paginated posts -->
+{% for post in paginator.posts %}
+  <div class="post">
+		<h2 class='title'><a href="{{ post.url }}">{{ post.title }}</a> </h2>
+		<span>{{ post.date | date_to_string }}</span>
+		{{ post.excerpt }}
+		<a href="{{post.url}}" class="more-link">阅读全文…</a>
+	</div>
+	{% endfor %}
 
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
-    <title>Heyi.github.io by heyi</title>
-  </head>
+	{% if paginator.total_pages > 1 %}
+	<div class="pagination">
+		{% if paginator.previous_page %}
+		<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+		{% else %}
+		<span>&laquo; Prev</span>
+		{% endif %}
 
-  <body>
-    <a id="forkme_banner" href="https://github.com/heyi">View on GitHub</a>
-    <div class="shell">
+		{% for page in (1..paginator.total_pages) %}
+		{% if page == paginator.page %}
+		<em>{{ page }}</em>
+		{% elsif page == 1 %}
+		<a href="{{ '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+		{% else %}
+		<a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+		{% endif %}
+		{% endfor %}
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Heyi.github.io</h1>
-            <h2>叶子绿</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
-
-      <div id="no-downloads">
-        <span class="inner">
-        </span>
-      </div>
-
-
-      <span class="banner-fix"></span>
-
-
-			<section id="main_content">
-			<ul>
-				{% for post in site.posts %}
-				<li>
-				<a href="{{ post.url }}">{{ post.title }}</a>
-				{{ post.excerpt }}
-				</li>
-				{% endfor %}
-			</ul>
-			</section>
-
-			<footer>
-			<span class="ribbon-outer">
-				<span class="ribbon-inner">
-					<p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a></p>
-				</span>
-				<span class="left-tail"></span>
-				<span class="right-tail"></span>
-			</span>
-			<p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-			<span class="octocat"></span>
-			</footer>
-
-		</div>
-
-	</body>
-</html>
+		{% if paginator.next_page %}
+		<a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+		{% else %}
+		<span>Next &raquo;</span>
+		{% endif %}
+	</div>
+	{% endif %}

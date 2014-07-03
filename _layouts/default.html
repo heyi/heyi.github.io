@@ -4,62 +4,37 @@
 <head>
   <meta charset='utf-8'>
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <meta name="viewport" content="width=640" />
-
-	<link rel="stylesheet" href="{{site.url}}/stylesheets/core.css" media="screen" />
-	<link rel="stylesheet" href="{{site.url}}/stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)" />
-	<link rel="stylesheet" href="{{site.url}}/stylesheets/pygment_trac.css" />
-
-	<script type="text/javascript" src="{{site.url}}/javascripts/modernizr.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script type="text/javascript" src="{{site.url}}/javascripts/headsmart.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function()
-    {
-      $('#main_content').headsmart()
-    })
-  </script>
-  <title>Heyi.github.io by heyi</title>
+  <link rel="stylesheet" href="{{site.url}}/css/core.css" media="screen" />
+  <title>叶子绿的天空</title>
 </head>
 
 <body>
-  <a id="forkme_banner" href="https://github.com/heyi">View on GitHub</a>
-  <div class="shell">
-    <header>
-      <span class="ribbon-outer">
-			<span class="ribbon-inner">
-				<h1>Heyi.github.io</h1>
-				<h2>叶子绿</h2>
-			</span>
-      <span class="left-tail"></span>
-      <span class="right-tail"></span>
-      </span>
-    </header>
 
-    <div id="no-downloads">
-      <span class="inner">
-        </span>
-    </div>
+  <div class="wrapper">
+		<div id="sidebar">
+			<p> 一个靠谱的前端,一个追求梦想的北漂...   </p>
+			<h3>最新文章</h3>
+			<hr/>
+			<ul>
+				<ul style='list-style:none;margin:0px;padding:0px;'>
+					{% for post in site.posts %}
+					<li>
+					<a href="{{ post.url }}">{{ post.title }}</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</ul>
 
+		</div>
+		<div id="content">
+			{{content}}
+		</div>
+	</div>
 
-    <span class="banner-fix"></span>
-
-    <section id="main_content">
-      {{content}}
-    </section>
-
-    <footer>
-      <span class="ribbon-outer">
-			<span class="ribbon-inner">
-				<p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a></p>
-			</span>
-      <span class="left-tail"></span>
-      <span class="right-tail"></span>
-      </span>
-      <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-      <span class="octocat"></span>
-    </footer>
-  </div>
+	<div class='footer'>
+		<p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a>
+		</p>
+	</div>
 </body>
 
 </html>
