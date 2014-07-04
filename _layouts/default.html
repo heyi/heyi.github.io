@@ -13,28 +13,51 @@
   <div class="wrapper">
     <div id="sidebar">
       <p>一个靠谱的前端,一个追求梦想的北漂...</p>
-      <h3>最新文章</h3>
-      <hr/>
-      <ul>
-        <ul style='list-style:none;margin:0px;padding:0px;'>
-          {% for post in site.posts %}
-          <li>
-            <a href="{{ post.url }}">{{ post.title }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </ul>
+			<div id="search">
+				<input type="text" id="search-query" name="q" placeholder="站内搜索" autocomplete="off">
+			</div>
 
-    </div>
-    <div id="content">
-      {{content}}
-    </div>
-  </div>
+			<section id="search-results" style="display: none;">
+			<div class="entries"> </div>
+			</section>
 
-  <div class='footer'>
-    <p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a>
-    </p>
-  </div>
+			<h3>最新文章</h3>
+			<hr/>
+			<ul>
+				<ul style='list-style:none;margin:0px;padding:0px;'>
+					{% for post in site.posts %}
+					<li>
+					<a href="{{ post.url }}">{{ post.title }}</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</ul>
+
+		</div>
+		<div id="content">
+			{{content}}
+		</div>
+	</div>
+
+	<div class='footer'>
+		<p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a>
+		</p>
+	</div>
+	<script src="{{site.url}}/js/search.min.js" type="text/javascript" charset="utf-8"></script>
+	{% raw %}
+	<script id="search-results-template" type="text/mustache">
+		{{#entries}}
+		<article>
+		<h3>
+			<a href="{{url}}">{{title}}</a>
+			{{#date}}<small><time datetime="{{pubdate}}" pubdate>{{displaydate}}</time></small>{{/date}}
+		</h3>
+		</article>
+		{{/entries}}
+	</script>
+	{% endraw %}
+	<script type="text/javascript">
+		$(function() { $('#search-query').lunrSearch({ indexUrl: '{{site.url}}/search.json', results:  '#search-results', entries:  '.entries',      template: '#search-results-template' }); });
+	</script>
 </body>
-
 </html>

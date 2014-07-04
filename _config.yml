@@ -5,6 +5,13 @@ paginate: 5
 paginate_path: "blog/page:num"
 permalink:   date
 extensions: [smart]
+exclude_from_search: true
+lunr_search:
+  excludes: [rss.xml, atom.xml]
+
+lunr_search:
+    stopwords: "stopwords.txt"
+    min_length: 3
 
 gems:
 - jekyll-mentions
