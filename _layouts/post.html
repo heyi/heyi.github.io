@@ -13,11 +13,13 @@ layout: default
       </li>
       {% endfor %}
     </ul>
-    <span class='fr'>
-			{{page.date | date_to_long_string }}
-		</span>
   </div>
-  <hr/>{{content}}
+	<hr/>
+	{{content}}
+	<a href="http://heyi.github.io">返回首页</a>
+	<span class='fr'>
+		{{page.date | date_to_long_string }}
+	</span>
   <!-- 多说评论框 start -->
 	<div class="ds-thread" data-thread-key="{{page.id}}" data-title="{{page.title}}" data-url="{{site.url}}{{page.url}}"></div>
   <!-- 多说评论框 end -->
