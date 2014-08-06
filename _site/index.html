@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="/css/core.css" media="screen" />
+  <title>叶子绿的天空</title>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div id="sidebar">
+      <p>一个靠谱的前端,一个追求梦想的北漂...</p>
+      <div id="search">
+        <input type="text" id="search-query" name="q" placeholder="站内搜索" autocomplete="off">
+      </div>
+
+      <section id="search-results" style="display: none;">
+      <div class="entries"> </div>
+      </section>
+
+      <h3>最新文章</h3>
+      <hr/>
+      <ul>
+        <ul style='list-style:none;margin:0px;padding:0px;'>
+          
+          <li>
+          <a href="/webapp/experience/2014/08/06/index.html">实现无缝Carousel</a>
+          </li>
+          
+          <li>
+          <a href="/port/2014/07/03/index.html">医院微站接口数据</a>
+          </li>
+          
+          <li>
+          <a href="/webapp/experience/2014/07/02/index.html">访名医官网开发教程</a>
+          </li>
+          
+          <li>
+          <a href="/webapp/experience/2014/07/01/index.html">移动开发个人总结</a>
+          </li>
+          
+        </ul>
+      </ul>
+
+    </div>
+    <div id="content">
+      <!-- This loops through the paginated posts -->
+
+  <div class="post">
+    <h2 class='title'><a href="/webapp/experience/2014/08/06/index.html">实现无缝Carousel</a> </h2>
+    <span>06 Aug 2014</span>
+    <p>最近一段时间我在重构<a href='http://fangmingyi.com/#/'>访名医官网</a>,多了很多动画，设计也更精美。 其中有一个就是实现无缝Carousel, 结合angularjs ，我想应该是很简单的吧。之前也看过不少这方面的资料，但总是不理解，一直压在心里,成了心结了。正好，借这次机会，彻底了解下。</p>
+    <a href="/webapp/experience/2014/08/06/index.html" class="more-link">阅读全文…</a>
+  </div>
+  
+  <div class="post">
+    <h2 class='title'><a href="/port/2014/07/03/index.html">医院微站接口数据</a> </h2>
+    <span>03 Jul 2014</span>
+    <p><a href='http://front.staging-fangmingyi.com/webroot/front.microsite/www/#/hospital/001'>访名医医院微站点</a> 数据参考，后台可以参考开发接口..</p>
+    <a href="/port/2014/07/03/index.html" class="more-link">阅读全文…</a>
+  </div>
+  
+  <div class="post">
+    <h2 class='title'><a href="/webapp/experience/2014/07/02/index.html">访名医官网开发教程</a> </h2>
+    <span>02 Jul 2014</span>
+    <p>本文是<a href='http://fangmingyi.com/#/'>访名医</a>官网的开发基本教程,为后续团队协作文档参考..</p><h2 id=''>环境搭建</h2><ul>
+<li>osx 10.8 以上</li>
+
+<li>安装node</li>
+
+<li>安装<a href='http://yeoman.io/'>yeoman</a>
+<ul>
+<li>yo (脚手架工具)</li>
+
+<li>grunt (构建工具）</li>
+
+<li>bower (包管理工具)</li>
+</ul>
+</li>
+</ul>
+    <a href="/webapp/experience/2014/07/02/index.html" class="more-link">阅读全文…</a>
+  </div>
+  
+  <div class="post">
+    <h2 class='title'><a href="/webapp/experience/2014/07/01/index.html">移动开发个人总结</a> </h2>
+    <span>01 Jul 2014</span>
+    <p>近月来，利用 angular 开发了一系列移动微站，由此积累了一些难得的经验….</p><h3 id=''>过去的经验陷井与思维定势</h3><p>在开发官网的时候，引入iscroll5, 由此引发了一些问题。</p><ul>
+<li>光标跳动/文本框消失</li>
+
+<li>滑动隐藏虚拟键盘</li>
+
+<li>引发的性能问题 google之，发现这些问题很普遍。解决方案也很多，总之是个相应麻烦与 头疼的问题。 后来想，当时我为什么要用iscroll呢，仅仅是因为过去使用过，觉得很好 用，体验也不错。用在这里合适吗？</li>
+</ul>
+    <a href="/webapp/experience/2014/07/01/index.html" class="more-link">阅读全文…</a>
+  </div>
+  
+
+  
+
+    </div>
+  </div>
+
+  <div class='footer'>
+    <p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a>
+    </p>
+  </div>
+  <script src="/js/search.min.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script id="search-results-template" type="text/mustache">
+    {{#entries}}
+    <article>
+    <h3>
+      <a href="{{url}}">{{title}}</a>
+      {{#date}}<small><time datetime="{{pubdate}}" pubdate>{{displaydate}}</time></small>{{/date}}
+    </h3>
+    </article>
+    {{/entries}}
+  </script>
+  
+  <script type="text/javascript">
+    $(function() { $('#search-query').lunrSearch({ indexUrl: '/search.json', results:  '#search-results', entries:  '.entries',      template: '#search-results-template' }); });
+  </script>
+</body>
+</html>

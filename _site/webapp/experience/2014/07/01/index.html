@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="/css/core.css" media="screen" />
+  <title>叶子绿的天空</title>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div id="sidebar">
+      <p>一个靠谱的前端,一个追求梦想的北漂...</p>
+      <div id="search">
+        <input type="text" id="search-query" name="q" placeholder="站内搜索" autocomplete="off">
+      </div>
+
+      <section id="search-results" style="display: none;">
+      <div class="entries"> </div>
+      </section>
+
+      <h3>最新文章</h3>
+      <hr/>
+      <ul>
+        <ul style='list-style:none;margin:0px;padding:0px;'>
+          
+          <li>
+          <a href="/webapp/experience/2014/08/06/index.html">实现无缝Carousel</a>
+          </li>
+          
+          <li>
+          <a href="/port/2014/07/03/index.html">医院微站接口数据</a>
+          </li>
+          
+          <li>
+          <a href="/webapp/experience/2014/07/02/index.html">访名医官网开发教程</a>
+          </li>
+          
+          <li>
+          <a href="/webapp/experience/2014/07/01/index.html">移动开发个人总结</a>
+          </li>
+          
+        </ul>
+      </ul>
+
+    </div>
+    <div id="content">
+      <article>
+  <h1>移动开发个人总结</h1>
+  <div class="info">
+    <span class='tag-label'>标签: </span>
+    <ul class="tag-list">
+      
+      <li>
+        webApp
+      </li>
+      
+    </ul>
+  </div>
+	<hr/>
+	<p>近月来，利用 angular 开发了一系列移动微站，由此积累了一些难得的经验….</p>
+
+<h3 id="">过去的经验陷井与思维定势</h3>
+
+<p>在开发官网的时候，引入iscroll5, 由此引发了一些问题。</p>
+
+<ul>
+<li>光标跳动/文本框消失</li>
+
+<li>滑动隐藏虚拟键盘</li>
+
+<li>引发的性能问题 google之，发现这些问题很普遍。解决方案也很多，总之是个相应麻烦与 头疼的问题。 后来想，当时我为什么要用iscroll呢，仅仅是因为过去使用过，觉得很好 用，体验也不错。用在这里合适吗？</li>
+</ul>
+
+<p>直觉用原生滚动会更好，<a href="http://www.quirksmode.org/css/css2/mobile.html">overflow:scrolling 兼容性检测报告</a> <strong>ios 有个小技巧</strong></p>
+
+<pre class="css21"><code class="css21">
+  overflow-y: scroll; /* has to be scroll, not auto */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; // for safari scroll bug.
+</code></pre>
+
+<p><img src="/images/mobile_overflow.png" alt="overflow scrolling detected" /> 如图，不支持overflow scrolling ,overflow auto 的手机或者浏览器主要集中android 3 以下的版本。 现在android 基本是4以上，2年前的旧手机普遍是3左右; 值得注意的是uc ,在国内市场占有率是比较高的。这也是一个坑，所以在决定方案的时候，可以考虑进去。 得出的结论是，绝大多数情况下，用原生的滚动会更合适。</p>
+
+<h3 id="sasscss">用sass组织css非常方便</h3>
+
+<pre class="sass"><code class="sass">
+.concat-us {
+  .logo {
+    background-image: url(../images/concat-us.png);
+    height: 180px;
+  }
+  .info {
+    padding: 12px;
+    h3 { margin-bottom: 12px; }
+    i.iconfont {
+      font-size: 1.2rem;
+      color : #4fbcbe;
+    }
+    a.email-text {
+      color : #4fbcbe;
+    }
+  }
+}
+</code></pre>
+
+<p>项目中的部分sass代码片断，这种组织的好处就是方便管理，互不影响。 在设计风格多变的页面中有很大管理维护优势，缺点是提取共用性的css会比较困难.</p>
+
+<h3 id="_jpeg_">使用渐进式 JPEG 能提升用户体验</h3>
+
+<p><a href="http://www.webmonkey.com/2013/01/the-return-of-the-progressive-jpeg/">关于progressive-jpeg</a> <a href="http://www.biaodianfu.com/progressive-jpeg.html">简单说明</a> 我第一个想法就是，这个渐进式 jpeg确实很不错，有法子在部署的时候自动转换吗？ 我仔细看了下部署脚本，其中有用到<a href="https://github.com/gruntjs/grunt-contrib-imagemin#progressive-jpg">grunt-contrib-imagemin</a> 看官方文档是有这个选项的，而且是默认选中的，很贴心了。</p>
+
+<h3 id="_2">虚拟键盘遮挡输入框问题。</h3>
+
+<p>这个问题也是很普遍的， 具体表现为如果容器的布局是 –absolute– 或者 –fixed–, 点击输入框时，弹出的虚拟键盘会遮挡住输入框。我这里的表现是虚拟键盘会顶高页面,但页面会反弹回来(测试手机是红米)。</p>
+
+<p>网上的解决方案不外乎二种,一种是使用iscroll ,在窗口resize事件中，重置容器的高度， 刷新iscroll,同时滚动到最底层。 另一种就是不使用iscroll ,使用定时器监控dom变化，改变容器的布局。 这二种方案的缺点是很明显的，带来的弊端且直无法忍受。</p>
+
+<p>想了想，最终的法子如下： 编写了个简单的指令</p>
+<div class='highlight'><pre><code class='javascript'><span class='nx'>app</span><span class='p'>.</span><span class='nx'>directive</span><span class='p'>(</span><span class='s1'>&#39;scrollHere&#39;</span><span class='p'>,</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>fmyApi</span><span class='p'>)</span> <span class='p'>{</span>
+  <span class='k'>return</span> <span class='p'>{</span>
+    <span class='nx'>restrict</span><span class='o'>:</span> <span class='s1'>&#39;A&#39;</span><span class='p'>,</span>
+    <span class='nx'>link</span><span class='o'>:</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>$scope</span><span class='p'>,</span> <span class='nx'>element</span><span class='p'>,</span> <span class='nx'>attrs</span><span class='p'>)</span> <span class='p'>{</span>
+      <span class='nx'>element</span><span class='p'>.</span><span class='nx'>on</span><span class='p'>(</span><span class='s1'>&#39;click&#39;</span><span class='p'>,</span> <span class='kd'>function</span><span class='p'>(</span><span class='nx'>e</span><span class='p'>)</span> <span class='p'>{</span>
+        <span class='nx'>setTimeout</span><span class='p'>(</span><span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+          <span class='nx'>element</span><span class='p'>[</span><span class='mi'>0</span><span class='p'>].</span><span class='nx'>scrollIntoView</span><span class='p'>(</span><span class='kc'>true</span><span class='p'>);</span>
+        <span class='p'>},</span><span class='mi'>500</span><span class='p'>);</span>
+      <span class='p'>});</span>
+      <span class='nx'>$scope</span><span class='p'>.</span><span class='nx'>$on</span><span class='p'>(</span><span class='s1'>&#39;$destroy&#39;</span><span class='p'>,</span> <span class='kd'>function</span><span class='p'>()</span> <span class='p'>{</span>
+        <span class='nx'>element</span><span class='p'>.</span><span class='nx'>off</span><span class='p'>(</span><span class='s2'>&quot;click&quot;</span><span class='p'>);</span>
+      <span class='p'>});</span>
+    <span class='p'>}</span>
+  <span class='p'>};</span>
+<span class='p'>});</span>
+</code></pre></div>
+<p><strong>应用场景：</strong></p>
+<div class='highlight'><pre><code class='html'><span class='nt'>&lt;div</span> <span class='na'>class=</span><span class='s'>&quot;input-container sbtn&quot;</span> <span class='na'>scroll-here</span><span class='nt'>&gt;</span>
+  <span class='nt'>&lt;input</span> <span class='na'>type=</span><span class='s'>&quot;text&quot;</span> <span class='na'>name=</span><span class='s'>&quot;mobile&quot;</span> <span class='na'>class=</span><span class='s'>&#39;form-control&#39;</span> <span class='na'>ng-model=</span><span class='s'>&#39;user.mobile&#39;</span> <span class='na'>required</span> <span class='na'>placeholder=</span><span class='s'>&#39;输入手机号&#39;</span> <span class='na'>ng-pattern=</span><span class='s'>&#39;/^1\d{10}$/&#39;</span><span class='nt'>&gt;</span>
+    <span class='nt'>&lt;button</span> <span class='na'>ng-click=</span><span class='s'>&#39;getMobileCode()&#39;</span> <span class='na'>ng-disabled=</span><span class='s'>&quot;form4.mobile.$invalid || sending&quot;</span><span class='nt'>&gt;</span>
+        
+    <span class='nt'>&lt;/button&gt;</span>
+    <span class='nt'>&lt;span</span> <span class='na'>class=</span><span class='s'>&quot;tip&quot;</span> <span class='na'>ng-show=</span><span class='s'>&#39;sending &amp;&amp; countDown != 0&#39;</span><span class='nt'>&gt;</span>秒后可以重新获取验证码<span class='nt'>&lt;/span&gt;</span>
+    <span class='nt'>&lt;span</span> <span class='na'>class=</span><span class='s'>&quot;error&quot;</span> <span class='na'>ng-show=</span><span class='s'>&#39;form4.mobile.$error.pattern&#39;</span><span class='nt'>&gt;</span>不是手机号码!<span class='nt'>&lt;/span&gt;</span>
+    <span class='nt'>&lt;/div&gt;</span>
+</code></pre></div>
+<p>可以看出，不是很严谨，因为无法捕获虚拟键盘弹出事件。</p>
+	<a href="http://heyi.github.io">返回首页</a>
+	<span class='fr'>
+		01 July 2014
+	</span>
+  <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/webapp/experience/2014/07/01/index" data-title="移动开发个人总结" data-url="/webapp/experience/2014/07/01/index.html"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+    var duoshuoQuery = {
+      short_name: "heyi"
+    };
+    (function()
+    {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';
+      ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+  <!-- 多说公共JS代码 end -->
+</article>
+
+    </div>
+  </div>
+
+  <div class='footer'>
+    <p>Projects by <a href="https://github.com/heyi">heyi</a> can be found on <a href="https://github.com/heyi">GitHub</a>
+    </p>
+  </div>
+  <script src="/js/search.min.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script id="search-results-template" type="text/mustache">
+    {{#entries}}
+    <article>
+    <h3>
+      <a href="{{url}}">{{title}}</a>
+      {{#date}}<small><time datetime="{{pubdate}}" pubdate>{{displaydate}}</time></small>{{/date}}
+    </h3>
+    </article>
+    {{/entries}}
+  </script>
+  
+  <script type="text/javascript">
+    $(function() { $('#search-query').lunrSearch({ indexUrl: '/search.json', results:  '#search-results', entries:  '.entries',      template: '#search-results-template' }); });
+  </script>
+</body>
+</html>
